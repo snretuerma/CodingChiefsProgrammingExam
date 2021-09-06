@@ -10,6 +10,7 @@
         "production": "mix --production"
     },
     "devDependencies": {
+        "@mdi/font": "^5.9.55",
         "axios": "^0.21",
         "bootstrap": "^4.6.0",
         "jquery": "^3.6",
@@ -28,6 +29,7 @@
         "vee-validate": "^3.3.0",
         "vue-router": "^3.5.2",
         "vuetify": "^2.5.8",
-        "vuex": "^3.6.2"
+        "vuex": "^3.6.2",
+        "vuex-persistedstate": "^4.0.0"
     }
 }

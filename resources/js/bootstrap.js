@@ -23,6 +23,26 @@ window.axios = require('axios');
 
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
+import router from 'vue-router';
+window.axios.defaults.withCredentials = true;
+if (location.origin.concat('/') != location.href) {
+    window.axios.interceptors.response.use(
+        function(response) { return response },
+        function (error) {
+            switch (error.response.status) {
+                case 401:
+                case 419:
+                case 503:
+                    localStorage.clear();
+                    router.push({ name: 'Login' });
+                    break;
+                default:
+                    return Promise.reject(error);
+            }
+        }
+    )
+}
+
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting

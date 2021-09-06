@@ -11,9 +11,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
-//
-//
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vee_validate__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vee-validate */ "./node_modules/vee-validate/dist/vee-validate.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -113,29 +119,46 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   components: {
-    ValidationProvider: vee_validate__WEBPACK_IMPORTED_MODULE_0__.ValidationProvider,
-    ValidationObserver: vee_validate__WEBPACK_IMPORTED_MODULE_0__.ValidationObserver
+    ValidationProvider: vee_validate__WEBPACK_IMPORTED_MODULE_1__.ValidationProvider,
+    ValidationObserver: vee_validate__WEBPACK_IMPORTED_MODULE_1__.ValidationObserver
   },
   data: function data() {
     return {
       form: {
-        username: null,
+        email: null,
         password: null
       },
       show_password: false
     };
   },
-  methods: {// async login() {
-    //     this.$store.dispatch('startLoading');
-    //     await axios.get('/sanctum/csrf-cookie').then(response => {
-    //         axios.post('/login', this.form).then(response => {
-    //             this.$store.dispatch('login').then(() => {
-    //                 // Call this after the dispatch to ensure that the states have been hydrated
-    //                 this.$router.push({ name: "Dashboard" });
-    //             });
-    //         });
-    //     });
-    // }
+  methods: {
+    login: function login() {
+      var _this = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/sanctum/csrf-cookie').then(function (response) {
+                  axios.post('/api/login', _this.form).then(function (response) {
+                    _this.$store.dispatch('setAuthUserToken', response.data).then(function () {
+                      _this.$router.push({
+                        name: "Items"
+                      });
+                    });
+                  });
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    }
   },
   mounted: function mounted() {}
 });
@@ -228,149 +251,224 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "v-container",
+    { attrs: { fluid: "", "fill-height": "" } },
     [
       _c(
-        "v-container",
-        { attrs: { fluid: "", "fill-height": "" } },
+        "v-row",
         [
           _c(
-            "v-row",
+            "v-col",
+            { attrs: { justify: "center", align: "center" } },
             [
               _c(
-                "v-col",
-                { attrs: { justify: "center", align: "center" } },
+                "v-card",
+                {
+                  staticClass: "rounded-lg",
+                  attrs: { "max-width": "800px", outlined: "" }
+                },
                 [
                   _c(
-                    "v-card",
+                    "v-toolbar",
                     {
-                      staticClass: "rounded-lg",
-                      attrs: { "max-width": "800px", outlined: "" }
+                      staticClass: "white--text",
+                      attrs: { flat: "", color: "primary" }
                     },
                     [
+                      _c("v-spacer"),
+                      _vm._v(" "),
                       _c(
-                        "v-toolbar",
-                        {
-                          staticClass: "white--text",
-                          attrs: { flat: "", color: "primary" }
-                        },
+                        "v-card-title",
+                        { attrs: { "primary-title": "" } },
                         [
-                          _c("v-spacer"),
-                          _vm._v(" "),
                           _c(
-                            "v-card-title",
-                            { attrs: { "primary-title": "" } },
+                            "v-row",
                             [
-                              _c(
-                                "v-row",
-                                [
-                                  _c("v-col", { staticClass: "overline" }, [
-                                    _c("h1", [_vm._v("Login")])
-                                  ])
-                                ],
-                                1
-                              )
+                              _c("v-col", { staticClass: "overline" }, [
+                                _c("h1", [_vm._v("Login")])
+                              ])
                             ],
                             1
-                          ),
-                          _vm._v(" "),
-                          _c("v-spacer")
+                          )
                         ],
                         1
                       ),
                       _vm._v(" "),
-                      _c(
-                        "v-card-text",
-                        { staticClass: "pr-10 pl-10" },
-                        [
-                          _c("validation-observer", {
-                            ref: "observer",
-                            scopedSlots: _vm._u([
-                              {
-                                key: "default",
-                                fn: function(ref) {
-                                  var invalid = ref.invalid
-                                  return [
+                      _c("v-spacer")
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "v-card-text",
+                    { staticClass: "pr-10 pl-10" },
+                    [
+                      _c("validation-observer", {
+                        ref: "observer",
+                        scopedSlots: _vm._u([
+                          {
+                            key: "default",
+                            fn: function(ref) {
+                              var invalid = ref.invalid
+                              return [
+                                _c(
+                                  "v-form",
+                                  {
+                                    on: {
+                                      submit: function($event) {
+                                        $event.preventDefault()
+                                        return _vm.login.apply(null, arguments)
+                                      }
+                                    }
+                                  },
+                                  [
                                     _c(
-                                      "v-form",
+                                      "v-row",
+                                      [
+                                        _c(
+                                          "v-col",
+                                          [
+                                            _c("validation-provider", {
+                                              attrs: {
+                                                name: "Email",
+                                                rules: "required"
+                                              },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "default",
+                                                    fn: function(ref) {
+                                                      var errors = ref.errors
+                                                      return [
+                                                        _c("v-text-field", {
+                                                          attrs: {
+                                                            tabindex: "1",
+                                                            label: "Email",
+                                                            clearable: "",
+                                                            outlined: "",
+                                                            required: "",
+                                                            "prepend-inner-icon":
+                                                              "mdi-email-outline",
+                                                            "error-messages": errors
+                                                          },
+                                                          model: {
+                                                            value:
+                                                              _vm.form.email,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.$set(
+                                                                _vm.form,
+                                                                "email",
+                                                                $$v
+                                                              )
+                                                            },
+                                                            expression:
+                                                              "form.email"
+                                                          }
+                                                        })
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            })
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-row",
                                       {
-                                        on: {
-                                          submit: function($event) {
-                                            $event.preventDefault()
-                                            return _vm.login.apply(
-                                              null,
-                                              arguments
-                                            )
-                                          }
+                                        attrs: {
+                                          align: "center",
+                                          justify: "space-around"
                                         }
                                       },
                                       [
                                         _c(
-                                          "v-row",
+                                          "v-col",
                                           [
-                                            _c(
-                                              "v-col",
-                                              [
-                                                _c("validation-provider", {
-                                                  attrs: {
-                                                    name: "Username",
-                                                    rules:
-                                                      "minmax:3,100|required"
-                                                  },
-                                                  scopedSlots: _vm._u(
-                                                    [
-                                                      {
-                                                        key: "default",
-                                                        fn: function(ref) {
-                                                          var errors =
-                                                            ref.errors
-                                                          return [
-                                                            _c("v-text-field", {
-                                                              attrs: {
-                                                                tabindex: "1",
-                                                                label:
-                                                                  "Username",
-                                                                clearable: "",
-                                                                outlined: "",
-                                                                required: "",
-                                                                "prepend-inner-icon":
-                                                                  "mdi-account-box-outline",
-                                                                "error-messages": errors
-                                                              },
-                                                              model: {
-                                                                value:
-                                                                  _vm.form
-                                                                    .username,
-                                                                callback: function(
-                                                                  $$v
-                                                                ) {
-                                                                  _vm.$set(
-                                                                    _vm.form,
-                                                                    "username",
-                                                                    $$v
-                                                                  )
-                                                                },
-                                                                expression:
-                                                                  "form.username"
-                                                              }
-                                                            })
-                                                          ]
-                                                        }
-                                                      }
-                                                    ],
-                                                    null,
-                                                    true
-                                                  )
-                                                })
-                                              ],
-                                              1
-                                            )
+                                            _c("validation-provider", {
+                                              attrs: {
+                                                name: "Password",
+                                                rules: "min:6|required"
+                                              },
+                                              scopedSlots: _vm._u(
+                                                [
+                                                  {
+                                                    key: "default",
+                                                    fn: function(ref) {
+                                                      var errors = ref.errors
+                                                      return [
+                                                        _c("v-text-field", {
+                                                          attrs: {
+                                                            tabindex: "2",
+                                                            label: "Password",
+                                                            outlined: "",
+                                                            clearable: "",
+                                                            required: "",
+                                                            "prepend-inner-icon":
+                                                              "mdi-form-textbox-password",
+                                                            "error-messages": errors,
+                                                            "append-icon": _vm
+                                                              .form
+                                                              .show_password
+                                                              ? "mdi-eye"
+                                                              : "mdi-eye-off",
+                                                            type: _vm.show_password
+                                                              ? "text"
+                                                              : "password"
+                                                          },
+                                                          on: {
+                                                            "click:append": function(
+                                                              $event
+                                                            ) {
+                                                              _vm.show_password = !_vm.show_password
+                                                            }
+                                                          },
+                                                          model: {
+                                                            value:
+                                                              _vm.form.password,
+                                                            callback: function(
+                                                              $$v
+                                                            ) {
+                                                              _vm.$set(
+                                                                _vm.form,
+                                                                "password",
+                                                                $$v
+                                                              )
+                                                            },
+                                                            expression:
+                                                              "form.password"
+                                                          }
+                                                        })
+                                                      ]
+                                                    }
+                                                  }
+                                                ],
+                                                null,
+                                                true
+                                              )
+                                            })
                                           ],
                                           1
-                                        ),
-                                        _vm._v(" "),
+                                        )
+                                      ],
+                                      1
+                                    ),
+                                    _vm._v(" "),
+                                    _c(
+                                      "v-row",
+                                      [
                                         _c(
-                                          "v-row",
+                                          "v-col",
                                           {
+                                            staticClass: "mb-2",
                                             attrs: {
                                               align: "center",
                                               justify: "space-around"
@@ -378,119 +476,28 @@ var render = function() {
                                           },
                                           [
                                             _c(
-                                              "v-col",
-                                              [
-                                                _c("validation-provider", {
-                                                  attrs: {
-                                                    name: "Password",
-                                                    rules: "min:6|required"
-                                                  },
-                                                  scopedSlots: _vm._u(
-                                                    [
-                                                      {
-                                                        key: "default",
-                                                        fn: function(ref) {
-                                                          var errors =
-                                                            ref.errors
-                                                          return [
-                                                            _c("v-text-field", {
-                                                              attrs: {
-                                                                tabindex: "2",
-                                                                label:
-                                                                  "Password",
-                                                                outlined: "",
-                                                                clearable: "",
-                                                                required: "",
-                                                                "prepend-inner-icon":
-                                                                  "mdi-form-textbox-password",
-                                                                "error-messages": errors,
-                                                                "append-icon": _vm
-                                                                  .form
-                                                                  .show_password
-                                                                  ? "mdi-eye"
-                                                                  : "mdi-eye-off",
-                                                                type: _vm.show_password
-                                                                  ? "text"
-                                                                  : "password"
-                                                              },
-                                                              on: {
-                                                                "click:append": function(
-                                                                  $event
-                                                                ) {
-                                                                  _vm.show_password = !_vm.show_password
-                                                                }
-                                                              },
-                                                              model: {
-                                                                value:
-                                                                  _vm.form
-                                                                    .password,
-                                                                callback: function(
-                                                                  $$v
-                                                                ) {
-                                                                  _vm.$set(
-                                                                    _vm.form,
-                                                                    "password",
-                                                                    $$v
-                                                                  )
-                                                                },
-                                                                expression:
-                                                                  "form.password"
-                                                              }
-                                                            })
-                                                          ]
-                                                        }
-                                                      }
-                                                    ],
-                                                    null,
-                                                    true
-                                                  )
-                                                })
-                                              ],
-                                              1
-                                            )
-                                          ],
-                                          1
-                                        ),
-                                        _vm._v(" "),
-                                        _c(
-                                          "v-row",
-                                          [
-                                            _c(
-                                              "v-col",
+                                              "v-btn",
                                               {
-                                                staticClass: "mb-2",
                                                 attrs: {
-                                                  align: "center",
-                                                  justify: "space-around"
+                                                  tabindex: "3",
+                                                  depressed: "",
+                                                  type: "submit",
+                                                  disabled: invalid,
+                                                  color: "primary"
                                                 }
                                               },
                                               [
+                                                _vm._v(
+                                                  "\n                                        Submit\n                                        "
+                                                ),
                                                 _c(
-                                                  "v-btn",
-                                                  {
-                                                    attrs: {
-                                                      tabindex: "3",
-                                                      depressed: "",
-                                                      type: "submit",
-                                                      disabled: invalid,
-                                                      color: "accent"
-                                                    }
-                                                  },
+                                                  "v-icon",
+                                                  { attrs: { right: "" } },
                                                   [
                                                     _vm._v(
-                                                      "\n                                                Submit\n                                                "
-                                                    ),
-                                                    _c(
-                                                      "v-icon",
-                                                      { attrs: { right: "" } },
-                                                      [
-                                                        _vm._v(
-                                                          "\n                                                    mdi-login-variant\n                                                "
-                                                        )
-                                                      ]
+                                                      "\n                                            mdi-login-variant\n                                        "
                                                     )
-                                                  ],
-                                                  1
+                                                  ]
                                                 )
                                               ],
                                               1
@@ -501,14 +508,14 @@ var render = function() {
                                       ],
                                       1
                                     )
-                                  ]
-                                }
-                              }
-                            ])
-                          })
-                        ],
-                        1
-                      )
+                                  ],
+                                  1
+                                )
+                              ]
+                            }
+                          }
+                        ])
+                      })
                     ],
                     1
                   )

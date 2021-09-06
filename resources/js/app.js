@@ -9,6 +9,7 @@ require('./bootstrap');
 window.Vue = require('vue').default;
 import vuetify from './vuetify'
 import router from './routes';
+import store from './store';
 import './validate'
 
 /**
@@ -33,5 +34,6 @@ import './validate'
 const app = new Vue({
     el: '#app',
     vuetify,
-    router
+    router,
+    store
 });

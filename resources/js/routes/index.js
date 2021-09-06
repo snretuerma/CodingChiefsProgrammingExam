@@ -23,7 +23,7 @@ const routes = [
             {
                 path: '',
                 component: () => import('../components/containers/GuestContainer'),
-                // meta: { isGuest: true },
+                meta: { isGuest: true },
                 children: [
                     {
                         path: '',
@@ -35,9 +35,13 @@ const routes = [
             {
                 path: '',
                 component: () => import('../components/containers/AuthContainer'),
-                // meta: { isAuth: true },
+                meta: { isAuth: true },
                 children: [
-                    
+                    {
+                        path: '',
+                        component: () => import('../components/pages/auth/ItemPage'),
+                        name: 'Items'
+                    }
                 ]
             }
         ],
@@ -48,6 +52,36 @@ const router = new VueRouter({
     mode: 'history',
     base: '/',
     routes
+});
+
+function sessionAlive() {
+    try {
+        if(JSON.parse(localStorage.getItem('vuex')).auth.authenticated) {
+            return true;
+        }
+        return false;
+    } catch (e) {
+        return false;
+    }
+
+};
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.isAuth)) {
+        if (!sessionAlive()) {
+            next({ name: 'Login' });
+        } else {
+            next()
+        }
+    } else if (to.matched.some(record => record.meta.isGuest)) {
+        if (sessionAlive()) {
+            next({ name: 'Items' });
+        } else {
+            next()
+        }
+    } else {
+        next()
+    }
 });
 
 export default router;
