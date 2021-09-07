@@ -72,7 +72,6 @@ class InfoController extends Controller
         /** @var InfoModel $info */
         $info = InfoModel::where([ 'slug' => $itemSlug, 'user_id' => $user->id ])->first();
         if (!$info) throw new NotFoundHttpException();
-
         $propertiesToUpdate = [];
         $body = $request->json();
         if ($body->has('description')) $propertiesToUpdate['description'] = $body->get('description');

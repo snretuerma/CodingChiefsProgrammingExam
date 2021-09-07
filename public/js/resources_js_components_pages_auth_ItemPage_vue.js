@@ -107,7 +107,41 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  components: {
+    DeleteConfirmation: function DeleteConfirmation() {
+      return __webpack_require__.e(/*! import() */ "resources_js_components_pages_auth_DeleteConfirmation_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./DeleteConfirmation.vue */ "./resources/js/components/pages/auth/DeleteConfirmation.vue"));
+    },
+    AddEditDialog: function AddEditDialog() {
+      return __webpack_require__.e(/*! import() */ "resources_js_components_pages_auth_AddEditModal_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./AddEditModal.vue */ "./resources/js/components/pages/auth/AddEditModal.vue"));
+    }
+  },
   props: {
     user_token: {
       type: Object,
@@ -117,11 +151,14 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       items: [],
-      show: false
+      dialog: false,
+      edit_dialog: false,
+      selected: {},
+      title: ''
     };
   },
   methods: {
-    getItems: function getItems() {
+    fetchItems: function fetchItems() {
       var _this = this;
 
       axios.get('/api/items', {
@@ -130,11 +167,38 @@ __webpack_require__.r(__webpack_exports__);
         }
       }).then(function (response) {
         _this.items = response.data;
+        _this.fetching_data = false;
       })["catch"](function (error) {});
+    },
+    removeItemFromList: function removeItemFromList() {
+      var _this2 = this;
+
+      this.items = this.items.filter(function (obj) {
+        return obj.slug !== _this2.selected.slug;
+      });
+      this.selected = {};
+      this.dialog = false;
+    },
+    editItemFromList: function editItemFromList(payload) {
+      var _this3 = this;
+
+      this.items = this.items.filter(function (obj) {
+        return obj.slug !== _this3.selected.slug;
+      });
+      this.selected = payload;
+      this.edit_dialog = false;
+    },
+    closeDeleteDialog: function closeDeleteDialog() {
+      this.selected = {};
+      this.dialog = false;
+    },
+    closeEditDialog: function closeEditDialog() {
+      this.selected = {};
+      this.edit_dialog = false;
     }
   },
   mounted: function mounted() {
-    this.getItems();
+    this.fetchItems();
   }
 });
 
@@ -229,221 +293,349 @@ var render = function() {
     { attrs: { fluid: "", "fill-height": "" } },
     [
       _c(
-        "v-carousel",
-        {
-          attrs: {
-            cycle: "",
-            height: "800",
-            "hide-delimiter-background": "",
-            "show-arrows-on-hover": "",
-            "fill-height": ""
-          },
-          scopedSlots: _vm._u([
-            {
-              key: "prev",
-              fn: function(ref) {
-                var on = ref.on
-                var attrs = ref.attrs
-                return [
-                  _c(
-                    "v-btn",
-                    _vm._g(
-                      _vm._b(
-                        { attrs: { color: "success" } },
-                        "v-btn",
-                        attrs,
-                        false
-                      ),
-                      on
-                    ),
-                    [_vm._v("Previous slide")]
-                  )
-                ]
-              }
-            },
-            {
-              key: "next",
-              fn: function(ref) {
-                var on = ref.on
-                var attrs = ref.attrs
-                return [
-                  _c(
-                    "v-btn",
-                    _vm._g(
-                      _vm._b(
-                        { attrs: { color: "info" } },
-                        "v-btn",
-                        attrs,
-                        false
-                      ),
-                      on
-                    ),
-                    [_vm._v("Next slide")]
-                  )
-                ]
-              }
-            }
-          ])
-        },
+        "v-row",
         [
-          _vm._v(" "),
-          _vm._v(" "),
-          _vm._l(_vm.items, function(slide, i) {
-            return _c(
-              "v-carousel-item",
-              { key: i },
-              [
-                _c(
-                  "v-card",
-                  {
-                    staticClass: "mx-auto",
-                    attrs: { color: "pink lighten-2", height: "100%" }
-                  },
-                  [
-                    _c("v-img", {
-                      attrs: { src: slide.avatar, height: "400" }
-                    }),
-                    _vm._v(" "),
-                    _c("v-card-title", [
-                      _vm._v(
-                        "\n                " +
-                          _vm._s(slide.name) +
-                          "\n            "
-                      )
-                    ]),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-subtitle",
-                      [
-                        _c(
-                          "v-chip",
-                          {
-                            attrs: {
-                              color: "pink",
-                              label: "",
-                              "text-color": "white"
-                            }
-                          },
-                          [
-                            _c("v-icon", { attrs: { left: "" } }, [
-                              _vm._v(
-                                "\n                    mdi-label\n                "
+          _c(
+            "v-col",
+            { attrs: { justify: "center", align: "center" } },
+            [
+              _c(
+                "v-card",
+                { attrs: { flat: "", "max-width": "700" } },
+                [
+                  _c(
+                    "v-carousel",
+                    {
+                      attrs: {
+                        height: "800",
+                        "hide-delimiters": "",
+                        "show-arrows-on-hover": "",
+                        "fill-height": ""
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "prev",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-btn",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      attrs: { color: "deep-purple lighten-2" }
+                                    },
+                                    "v-btn",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                ),
+                                [_vm._v("Previous")]
                               )
-                            ]),
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(slide.category) +
-                                "\n                "
-                            )
-                          ],
-                          1
-                        )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "v-card-actions",
-                      [
-                        _c(
-                          "v-row",
+                            ]
+                          }
+                        },
+                        {
+                          key: "next",
+                          fn: function(ref) {
+                            var on = ref.on
+                            var attrs = ref.attrs
+                            return [
+                              _c(
+                                "v-btn",
+                                _vm._g(
+                                  _vm._b(
+                                    {
+                                      attrs: { color: "deep-purple lighten-2" }
+                                    },
+                                    "v-btn",
+                                    attrs,
+                                    false
+                                  ),
+                                  on
+                                ),
+                                [_vm._v("Next")]
+                              )
+                            ]
+                          }
+                        }
+                      ])
+                    },
+                    [
+                      _vm._v(" "),
+                      _vm._v(" "),
+                      _vm._l(_vm.items, function(slide, i) {
+                        return _c(
+                          "v-carousel-item",
+                          { key: i },
                           [
                             _c(
-                              "v-col",
+                              "v-card",
+                              {
+                                staticClass: "mx-auto",
+                                attrs: {
+                                  color: "grey lighten-3",
+                                  height: "100%"
+                                }
+                              },
                               [
+                                _c("v-img", {
+                                  attrs: {
+                                    src: slide.avatar,
+                                    width: "100%",
+                                    height: "590",
+                                    contain: ""
+                                  }
+                                }),
+                                _vm._v(" "),
+                                _c("v-card-title", { staticClass: "mt-2" }, [
+                                  _vm._v(
+                                    "\n                                " +
+                                      _vm._s(slide.name) +
+                                      "\n                            "
+                                  )
+                                ]),
+                                _vm._v(" "),
                                 _c(
-                                  "v-chip",
+                                  "v-card-text",
                                   [
-                                    _c("v-icon", { attrs: { left: "" } }, [
-                                      _vm._v(
-                                        "\n                                mdi-download\n                            "
-                                      )
-                                    ]),
-                                    _vm._v(
-                                      "\n                                " +
-                                        _vm._s(slide.downloads) +
-                                        "\n                        "
+                                    _c(
+                                      "v-row",
+                                      {
+                                        staticClass: "mx-0",
+                                        attrs: { align: "center" }
+                                      },
+                                      [
+                                        _c("div", [
+                                          _vm._v(_vm._s(slide.description))
+                                        ])
+                                      ]
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c(
+                                  "v-card-text",
+                                  [
+                                    _c(
+                                      "v-row",
+                                      { staticClass: "mx-0" },
+                                      [
+                                        _c(
+                                          "v-chip-group",
+                                          { attrs: { column: "" } },
+                                          [
+                                            _c(
+                                              "v-chip",
+                                              { attrs: { label: "" } },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { left: "" } },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                                mdi-label\n                                            "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(
+                                                  "\n                                                " +
+                                                    _vm._s(slide.category) +
+                                                    "\n                                        "
+                                                )
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-chip",
+                                              { attrs: { label: "" } },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { left: "" } },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                                mdi-download\n                                            "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(
+                                                  "\n                                                " +
+                                                    _vm._s(slide.downloads) +
+                                                    "\n                                        "
+                                                )
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-chip",
+                                              { attrs: { label: "" } },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { left: "" } },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                                mdi-license\n                                            "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(
+                                                  "\n                                                " +
+                                                    _vm._s(slide.license) +
+                                                    "\n                                        "
+                                                )
+                                              ],
+                                              1
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-chip",
+                                              { attrs: { label: "" } },
+                                              [
+                                                _c(
+                                                  "v-icon",
+                                                  { attrs: { left: "" } },
+                                                  [
+                                                    _vm._v(
+                                                      "\n                                                mdi-ray-start-vertex-end\n                                            "
+                                                    )
+                                                  ]
+                                                ),
+                                                _vm._v(
+                                                  "\n                                                " +
+                                                    _vm._s(slide.vertices) +
+                                                    "\n                                        "
+                                                )
+                                              ],
+                                              1
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
+                                    )
+                                  ],
+                                  1
+                                ),
+                                _vm._v(" "),
+                                _c("v-divider"),
+                                _vm._v(" "),
+                                _c(
+                                  "v-card-actions",
+                                  [
+                                    _c(
+                                      "v-row",
+                                      { staticClass: "mt-1" },
+                                      [
+                                        _c(
+                                          "v-col",
+                                          [
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: {
+                                                  color:
+                                                    "deep-purple lighten-2",
+                                                  text: ""
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    _vm.selected = slide
+                                                    _vm.edit_dialog = true
+                                                    _vm.title = "Edit Item"
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                            Edit\n                                        "
+                                                )
+                                              ]
+                                            ),
+                                            _vm._v(" "),
+                                            _c(
+                                              "v-btn",
+                                              {
+                                                attrs: {
+                                                  color:
+                                                    "deep-purple lighten-2",
+                                                  text: ""
+                                                },
+                                                on: {
+                                                  click: function($event) {
+                                                    $event.preventDefault()
+                                                    _vm.selected = slide
+                                                    _vm.dialog = true
+                                                  }
+                                                }
+                                              },
+                                              [
+                                                _vm._v(
+                                                  "\n                                            Delete\n                                        "
+                                                )
+                                              ]
+                                            )
+                                          ],
+                                          1
+                                        )
+                                      ],
+                                      1
                                     )
                                   ],
                                   1
                                 )
                               ],
                               1
-                            ),
-                            _vm._v(" "),
-                            _c("v-col"),
-                            _vm._v(" "),
-                            _c("v-col")
-                          ],
-                          1
-                        ),
-                        _vm._v(" "),
-                        _c("v-spacer"),
-                        _vm._v(" "),
-                        _c(
-                          "v-btn",
-                          {
-                            attrs: { icon: "" },
-                            on: {
-                              click: function($event) {
-                                _vm.show = !_vm.show
-                              }
-                            }
-                          },
-                          [
-                            _c("v-icon", [
-                              _vm._v(
-                                _vm._s(
-                                  _vm.show
-                                    ? "mdi-chevron-up"
-                                    : "mdi-chevron-down"
-                                )
-                              )
-                            ])
+                            )
                           ],
                           1
                         )
-                      ],
-                      1
-                    ),
-                    _vm._v(" "),
-                    _c("v-expand-transition", [
-                      _c(
-                        "div",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.show,
-                              expression: "show"
-                            }
-                          ]
-                        },
-                        [
-                          _c("v-divider"),
-                          _vm._v(" "),
-                          _c("v-card-text", [
-                            _vm._v(
-                              "\n                    " +
-                                _vm._s(slide.description) +
-                                "\n                "
-                            )
-                          ])
-                        ],
-                        1
-                      )
-                    ])
-                  ],
-                  1
-                )
-              ],
-              1
-            )
-          })
+                      })
+                    ],
+                    2
+                  )
+                ],
+                1
+              )
+            ],
+            1
+          )
         ],
-        2
-      )
+        1
+      ),
+      _vm._v(" "),
+      _c("delete-confirmation", {
+        attrs: {
+          user_token: _vm.user_token.plainTextToken,
+          dialog: _vm.dialog,
+          item: _vm.selected
+        },
+        on: {
+          "close-delete-dialog": _vm.closeDeleteDialog,
+          "show-delete-notif": _vm.removeItemFromList
+        }
+      }),
+      _vm._v(" "),
+      _c("add-edit-dialog", {
+        attrs: {
+          user_token: _vm.user_token.plainTextToken,
+          dialog: _vm.edit_dialog,
+          item: _vm.selected,
+          title: _vm.title
+        },
+        on: {
+          "close-edit-dialog": _vm.closeEditDialog,
+          "edit-item-complete": _vm.editItemFromList
+        }
+      })
     ],
     1
   )

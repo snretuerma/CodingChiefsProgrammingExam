@@ -38,10 +38,10 @@ const routes = [
                 meta: { isAuth: true },
                 children: [
                     {
-                        path: '',
+                        path: 'items',
                         component: () => import('../components/pages/auth/ItemPage'),
                         name: 'Items'
-                    }
+                    },
                 ]
             }
         ],
