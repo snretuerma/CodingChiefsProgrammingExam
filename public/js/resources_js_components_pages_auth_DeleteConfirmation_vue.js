@@ -69,8 +69,6 @@ __webpack_require__.r(__webpack_exports__);
           'Authorization': "Bearer ".concat(this.user_token)
         }
       }).then(function (response) {
-        console.log(response.data);
-
         _this.$emit('show-delete-notif');
       })["catch"](function (error) {});
     }
